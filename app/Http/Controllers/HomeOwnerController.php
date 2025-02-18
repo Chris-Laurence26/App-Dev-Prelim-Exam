@@ -55,24 +55,25 @@ class HomeOwnerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HomeOwner $homeOwner)
+    public function show($id)
     {
-        $homeOwner->load('user');
+        $homeOwner = HomeOwner::findOrFail($id);
         return view('homeowner.show', compact('homeOwner'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HomeOwner $homeOwner)
+    public function edit($id)
     {
+        $homeOwner = HomeOwner::findOrFail($id);
         return view('homeowner.edit', compact('homeOwner'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, HomeOwner $homeOwner)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'first_name' => 'required',
@@ -82,6 +83,8 @@ class HomeOwnerController extends Controller
             'phone' => 'required',
             'address' => 'required',
         ]);
+
+        $homeOwner = HomeOwner::findOrFail($id);
 
         $homeOwner->update([
             'first_name' => $request->first_name,
