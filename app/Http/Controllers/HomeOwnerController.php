@@ -101,8 +101,10 @@ class HomeOwnerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HomeOwner $homeOwner)
+    public function destroy($id)
     {
+        $homeOwner = HomeOwner::findOrFail($id);
+
         $homeOwner->delete();
         return redirect()->route('homeowner.index')->with('success', 'Successfully deleted the homeowner');
     }

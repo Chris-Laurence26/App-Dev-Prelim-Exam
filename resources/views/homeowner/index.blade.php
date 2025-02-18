@@ -15,34 +15,36 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($owners as $owner)
-                <div class="relative bg-white shadow-lg rounded-xl overflow-hidden">
-                    <a href="{{ route('homeowner.show', $owner) }}">
-                        <div class="p-4">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <h2 class="text-xl font-bold text-gray-800">{{ $owner->first_name }}</h2>
-                                    <h2 class="text-xl font-bold text-gray-800">{{ $owner->middle_name }}</h2>
-                                    <h2 class="text-xl font-bold text-gray-800">{{ $owner->last_name }}</h2>
-                                    <p class="text-gray-600 text-lg font-semibold mb-2">{{ $owner->email }}</p>
-                                </div>
-                            </div>
+                <div class="relative bg-white shadow-lg rounded-xl overflow-hidden p-5 border border-gray-200">
+                    <a href="{{ route('homeowner.show', $owner) }}" class="block">
+                        <h2 class="text-xl font-bold text-gray-800 mb-1">{{ $owner->first_name }} {{ $owner->middle_name }} {{ $owner->last_name }}</h2>
+                        <p class="text-gray-600 text-lg font-semibold mb-2">
+                            <i class="fas fa-envelope text-gray-500"></i> {{ $owner->email }}
+                        </p>
+                        <p class="text-gray-600 text-lg">
+                            <i class="fas fa-phone text-gray-500"></i> {{ $owner->phone }}
+                        </p>
+                        <p class="text-gray-600 text-lg mb-3">
+                            <i class="fas fa-map-marker-alt text-gray-500"></i> {{ $owner->address }}
+                        </p>
 
-                            <div class="flex justify-between items-center mt-3">
-                                @if(auth()->id() === $owner->user_id)
-                                    {{-- Show edit and delete buttons if the user owns the product --}}
-                                    <div class="flex-1">
-                                        <a href="{{ route('homeowner.edit', $owner) }}" class="bg-green-500 text-white py-1 px-2 rounded-lg">Edit</a>
-                                    </div>
-                                    <form action="{{ route('homeowner.destroy', $owner) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove the Homeowner?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="bg-red-500 text-white py-1 px-2 rounded-lg">Delete</button>
-                                    </form>
-                                @else
-                                    {{-- Show the owner's username and creation date instead --}}
-                                    <p class="text-gray-700 text-sm">By: <span class="font-semibold">{{ $owner->user->name }}</span></p>
-                                    <p class="text-gray-500 text-sm">On: {{ $owner->created_at->format('M d, Y') }}</p>
-                                @endif
-                            </div>
+                        <div class="flex justify-between items-center mt-3">
+                            @if(auth()->id() === $owner->user_id)
+                                <div class="flex-1">
+                                    <a href="{{ route('homeowner.edit', $owner) }}" class="bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-green-600 transition">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                </div>
+                                <form action="{{ route('homeowner.destroy', $owner) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove the Homeowner?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 transition">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            @else
+                                <p class="text-gray-700 text-sm">By: <span class="font-semibold">{{ $owner->user->name }}</span></p>
+                                <p class="text-gray-500 text-sm">On: {{ $owner->created_at->format('M d, Y') }}</p>
+                            @endif
                         </div>
                     </a>
                 </div>
